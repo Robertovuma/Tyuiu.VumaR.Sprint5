@@ -18,7 +18,7 @@ namespace Tyuiu.VumaR.Sprint5.Task0.V5
             Console.WriteLine("********************************************************************************");
             Console.WriteLine("Файл: " + res);
             Console.WriteLine("Создан!");
-            Console.ReadKey();
+            Console.ReadKey(); 
         }
     }
 }
