@@ -1,4 +1,5 @@
 ﻿
+using System.Globalization;
 using tyuiu.cources.programming.interfaces.Sprint5;
 namespace Tyuiu.VumaR.Sprint5.Task5.V27.Lib
 {
@@ -6,22 +7,37 @@ namespace Tyuiu.VumaR.Sprint5.Task5.V27.Lib
     {
         public double LoadFromDataFile(string path)
         {
-            double res = 0;
-            int count = 0;
+            int maxInteger = int.MinValue;
+
             using (StreamReader reader = new StreamReader(path))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (Convert.ToDouble(line) % 5 == 0)
+                    if (!string.IsNullOrWhiteSpace(line))
                     {
-                        res += Convert.ToDouble(line);
-                        count++;
+                        // Разделяем строку на отдельные элементы
+                        var values = line.Split();
+
+                        foreach (var valueStr in values)
+                        {
+                            // Преобразуем строку в число, используя InvariantCulture
+                            double value = double.Parse(valueStr, CultureInfo.InvariantCulture);
+
+                            // Проверяем, является ли число целым
+                            if (value == Math.Truncate(value)) // Целое число, если дробная часть равна нулю
+                            {
+                                int integerValue = (int)value;
+                                if (integerValue > maxInteger)
+                                {
+                                    maxInteger = integerValue;
+                                }
+                            }
+                        }
                     }
                 }
             }
-            res /= count;
-            return res;
+            return maxInteger;
         }
     }
 }
