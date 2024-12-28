@@ -6,7 +6,8 @@ namespace Tyuiu.VumaR.Sprint5.Task2.V21.Lib
     {
         public string SaveToFileTextData(int[,] matrix)
         {
-            string path = $@"{Directory.GetCurrentDirectory()}\OutPutFileTask2.csv";
+            string path = Path.Combine(Path.GetTempPath(), "OutPutFileTask2.csv");
+
 
             FileInfo fileInfo = new FileInfo(path);
             bool fileExists = fileInfo.Exists;
