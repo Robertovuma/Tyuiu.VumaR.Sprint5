@@ -5,41 +5,39 @@ namespace Tyuiu.VumaR.Sprint5.Task7.V12.Lib
     {
         public string LoadDataAndSave(string path)
         {
-            string pathSaveFile = $@"{Directory.GetCurrentDirectory()}\OutPutDataFileTask7V12.txt";
-            FileInfo fileinfo = new FileInfo(pathSaveFile);
-            bool fileExists = fileinfo.Exists;
+            string pathSafeFile = Path.Combine(Path.GetTempPath(), "OutPutDataFileTask7V28.txt");
+            FileInfo fileInfo = new FileInfo(pathSafeFile);
+            bool fileExists = fileInfo.Exists;
 
             if (fileExists)
             {
-                File.Delete(pathSaveFile);
+                File.Delete(pathSafeFile);
             }
 
-            string strLine = "";
+            string strline = "";
             using (StreamReader reader = new StreamReader(path))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    for (int i = 0; i < line.Length; i++)
+                    for (int i = 0; i < line.Length; i++) // исправленная строка
                     {
-                        char c = line[i];
-                        if (((c >= 'а') && (c <= 'я')))
+                        char c = line[i]; //исправленная строка
+                        if ((c >= 'a') && (c <= 'z')) // проверяем если символ маленькая буква
                         {
-                            strLine = strLine + Char.ToUpper(c);
+                            strline += char.ToUpper(c); // если маленькая - то в большую
                         }
                         else
                         {
-                            strLine = strLine + line[i];
+                            strline += c; //иначе без изменений
                         }
-
                     }
-
-                    File.AppendAllText(pathSaveFile, strLine + Environment.NewLine);
-                    strLine = "";
+                    File.AppendAllText(pathSafeFile, strline + Environment.NewLine);
+                    strline = "";
                 }
-
-                return pathSaveFile;
             }
+
+            return pathSafeFile;
         }
     }
 }
